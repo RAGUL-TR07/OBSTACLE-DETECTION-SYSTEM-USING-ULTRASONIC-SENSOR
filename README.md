@@ -19,8 +19,10 @@ Tinkercad provides a simulation environment where this circuit can be virtually 
 
 
 ## Circuit Diagram:
- 
-## Procedure: //Modify the procedure based on your circuit
+ <img width="1385" height="765" alt="Screenshot 2025-09-06 084336" src="https://github.com/user-attachments/assets/9092a5d2-673f-4494-8f4b-3ef2a24b5e86" />
+<img width="1797" height="801" alt="Screenshot 2025-09-06 084459" src="https://github.com/user-attachments/assets/eaef96c1-ba42-49a8-8e7c-db3633db1f2b" />
+
+## Procedure: 
 
 Step 1: Set Up the Tinkercad Environment
 1.	Log in to Tinkercad: Open Tinkercad in your web browser and log into your account.
@@ -53,14 +55,69 @@ Step 7: Save Your Work
 
 
 ## Code:
+// C++ code
+//
 
+// variables
+int led = 2;
+int buzzer = 8;
+int pingPin = 13;
+
+void setup()
+{
+  Serial.begin(9600);
+  pinMode(led, OUTPUT);
+  pinMode(buzzer, OUTPUT);
+}
+
+void loop()
+{
+  long duration, cm; // variables to store the duration and distance
+  
+  // ultrasensor state
+  pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+	
+  // check input from ultrasensor pingPIN
+  // store the input in duration variable
+  pinMode(pingPin, INPUT);
+  duration = pulseIn(pingPin, HIGH);
+
+  // convert the time into cm
+  cm = duration / 29 / 2;
+
+  // print the result
+  Serial.print(cm);
+  Serial.print("cm");
+  Serial.println();
+  
+  // check if distance drops to 60 cm
+  // buzz the piezzo every 1 sec
+  // blink the light every 1 sec
+  if(cm < 60){
+    digitalWrite(led, HIGH);
+    tone(buzzer, 1000); 
+    delay(1000); // every 1 sec
+    digitalWrite(led, LOW);
+  	noTone(buzzer);        // ... no sound 
+    delay(1000);  
+  }
+
+}
 
 ## Output:
  
+
+https://github.com/user-attachments/assets/7af47fd3-0a7f-4354-97e1-929dfab4814d
+
+
 
 
 ## Result
 
 
-Result:
 The simulation successfully measured the distance between the ultrasonic sensor  HC-SR04 and the object. The real-time distance values were accurately displayed on the serial monitor in centimeters.
